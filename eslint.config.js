@@ -43,12 +43,8 @@ module.exports = [
   },
   {
     ignores: [
-      'node_modules/**',
-      'dist/**',
-      '*.d.ts',
-      'coverage/**',
-      '.git/**',
-      'example.ts',
+      '**',
+      '!src/**',
     ],
   },
 ];
