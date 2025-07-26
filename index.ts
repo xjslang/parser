@@ -3,4 +3,4 @@
  * Re-exports all functionality from src
  */
 
-export * from './src/index.js';
+export * from './src/index';

@@ -3,4 +3,4 @@
  * Re-exports mut functionality for @xjslang/parser/mut
  */
 
-export * from './src/mut/index.js';
+export * from './src/mut/index';

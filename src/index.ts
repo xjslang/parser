@@ -8,5 +8,5 @@ export function parse(input: string): any {
   throw new Error('parse function not implemented yet');
 }
 
-export * from './defer/index.js';
-export * from './mut/index.js';
+export * from './defer/index';
+export * from './mut/index';

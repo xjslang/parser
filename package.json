@@ -2,32 +2,37 @@
   "name": "@xjslang/parser",
   "version": "1.0.0",
   "description": "Extended JavaScript language (XJS Language)",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
     },
     "./defer": {
-      "types": "./dist/defer.d.ts",
-      "default": "./dist/defer.js"
+      "import": "./dist/esm/defer.js",
+      "require": "./dist/cjs/defer.js",
+      "types": "./dist/types/defer.d.ts"
     },
     "./mut": {
-      "types": "./dist/mut.d.ts",
-      "default": "./dist/mut.js"
+      "import": "./dist/esm/mut.js",
+      "require": "./dist/cjs/mut.js",
+      "types": "./dist/types/mut.d.ts"
     }
   },
   "files": [
-    "dist",
-    "src",
+    "dist/",
     "README.md"
   ],
   "scripts": {
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:types",
+    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "build:esm": "tsc --project tsconfig.esm.json",
+    "build:types": "tsc --project tsconfig.types.json",
     "clean": "rm -rf dist",
-    "dev": "tsc --watch",
+    "dev": "npm run build -- --watch",
     "prepublishOnly": "npm run build"
   },
   "keywords": [

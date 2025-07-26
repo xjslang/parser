@@ -4,15 +4,15 @@
  */
 
 // Test main entry point
-const mainParser = require('./dist/index.js');
+const mainParser = require('./dist/index');
 console.log('Main parser exports:', Object.keys(mainParser));
 
 // Test defer subpath
-const deferParser = require('./dist/defer.js');
+const deferParser = require('./dist/defer');
 console.log('Defer parser exports:', Object.keys(deferParser));
 
 // Test mut subpath
-const mutParser = require('./dist/mut.js');
+const mutParser = require('./dist/mut');
 console.log('Mut parser exports:', Object.keys(mutParser));
 
 // Test that functions exist (they will throw but that's expected)
