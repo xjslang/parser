@@ -33,7 +33,10 @@
     "build:types": "tsc --project tsconfig.types.json",
     "clean": "rm -rf dist",
     "dev": "npm run build -- --watch",
-    "prepublishOnly": "npm run build"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:check": "eslint . --max-warnings 0",
+    "prepublishOnly": "npm run lint:check && npm run build"
   },
   "keywords": [
     "xjs",
@@ -45,6 +48,10 @@
   "author": "XJS Lang Team",
   "license": "MIT",
   "devDependencies": {
+    "@eslint/js": "^9.32.0",
+    "@typescript-eslint/eslint-plugin": "^8.38.0",
+    "@typescript-eslint/parser": "^8.38.0",
+    "eslint": "^9.32.0",
     "typescript": "^5.0.0"
   },
   "engines": {

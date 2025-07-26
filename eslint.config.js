@@ -1,0 +1,88 @@
+const js = require('@eslint/js');
+const tseslint = require('@typescript-eslint/eslint-plugin');
+const tsparser = require('@typescript-eslint/parser');
+
+module.exports = [
+  js.configs.recommended,
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    languageOptions: {
+      parser: tsparser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
+    },
+    plugins: {
+      '@typescript-eslint': tseslint,
+    },
+    rules: {
+      // TypeScript specific rules
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-inferrable-types': 'error',
+
+      // JavaScript/General rules
+      'no-console': 'warn',
+      'no-debugger': 'error',
+      'no-duplicate-imports': 'error',
+      'no-unused-expressions': 'error',
+      'prefer-template': 'error',
+      'prefer-const': 'error',
+      'quotes': ['error', 'single', { allowTemplateLiterals: true }],
+      'semi': ['error', 'always'],
+      'comma-dangle': ['error', 'always-multiline'],
+      'object-curly-spacing': ['error', 'always'],
+      'array-bracket-spacing': ['error', 'never'],
+      'indent': ['error', 2],
+      'no-trailing-spaces': 'error',
+      'eol-last': 'error',
+    },
+  },
+  {
+    files: ['**/*.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'script',
+      globals: {
+        require: 'readonly',
+        console: 'readonly',
+        module: 'readonly',
+        exports: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        process: 'readonly',
+        Buffer: 'readonly',
+        global: 'readonly',
+      },
+    },
+    rules: {
+      'no-console': 'off',
+      'no-debugger': 'error',
+      'no-duplicate-imports': 'error',
+      'no-unused-expressions': 'error',
+      'prefer-template': 'error',
+      'prefer-const': 'error',
+      'quotes': ['error', 'single', { allowTemplateLiterals: true }],
+      'semi': ['error', 'always'],
+      'comma-dangle': ['error', 'always-multiline'],
+      'object-curly-spacing': ['error', 'always'],
+      'array-bracket-spacing': ['error', 'never'],
+      'indent': ['error', 2],
+      'no-trailing-spaces': 'error',
+      'eol-last': 'error',
+    },
+  },
+  {
+    ignores: [
+      'node_modules/**',
+      'dist/**',
+      '*.d.ts',
+      'coverage/**',
+      '.git/**',
+      'example.ts',
+    ],
+  },
+];

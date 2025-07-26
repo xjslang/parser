@@ -3,7 +3,7 @@
  * Exports the core parsing functionality
  */
 
-export function parse(input: string): any {
+export function parse(_input: string): any {
   // TODO: Implement main parser logic
   throw new Error('parse function not implemented yet');
 }

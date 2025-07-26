@@ -3,12 +3,12 @@
  * Handles mutable parsing operations
  */
 
-export function parseMut(input: string): any {
+export function parseMut(_input: string): any {
   // TODO: Implement mut parser logic
   throw new Error('parseMut function not implemented yet');
 }
 
-export function isMutExpression(input: string): boolean {
+export function isMutExpression(_input: string): boolean {
   // TODO: Implement mut detection logic
   return false;
 }
