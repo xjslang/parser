@@ -1,0 +1,48 @@
+{
+  "name": "@xjslang/parser",
+  "version": "1.0.0",
+  "description": "Extended JavaScript language (XJS Language)",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./defer": {
+      "types": "./dist/defer.d.ts",
+      "default": "./dist/defer.js"
+    },
+    "./mut": {
+      "types": "./dist/mut.d.ts",
+      "default": "./dist/mut.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "xjs",
+    "parser",
+    "language",
+    "defer",
+    "mut"
+  ],
+  "author": "XJS Lang Team",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}
