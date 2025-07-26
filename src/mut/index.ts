@@ -5,10 +5,10 @@
 
 export function parseMut(_input: string): any {
   // TODO: Implement mut parser logic
-  throw new Error('parseMut function not implemented yet');
+  throw new Error('parseMut function not implemented yet')
 }
 
 export function isMutExpression(_input: string): boolean {
   // TODO: Implement mut detection logic
-  return false;
+  return false
 }

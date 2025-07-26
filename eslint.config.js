@@ -32,7 +32,7 @@ module.exports = [
       'prefer-template': 'error',
       'prefer-const': 'error',
       'quotes': ['error', 'single', { allowTemplateLiterals: true }],
-      'semi': ['error', 'always'],
+      'semi': ['error', 'never'],
       'comma-dangle': ['error', 'always-multiline'],
       'object-curly-spacing': ['error', 'always'],
       'array-bracket-spacing': ['error', 'never'],
