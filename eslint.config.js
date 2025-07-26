@@ -25,7 +25,7 @@ module.exports = [
       '@typescript-eslint/no-inferrable-types': 'error',
 
       // JavaScript/General rules
-      'no-console': 'warn',
+      'no-undef': 'off',
       'no-debugger': 'error',
       'no-duplicate-imports': 'error',
       'no-unused-expressions': 'error',
