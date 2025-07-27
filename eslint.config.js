@@ -19,12 +19,12 @@ module.exports = [
     rules: {
       // TypeScript specific rules
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      'no-unused-vars': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-inferrable-types': 'error',
-
+      
       // JavaScript/General rules
+      'no-unused-vars': 'off',
       'no-undef': 'off',
       'no-debugger': 'error',
       'no-duplicate-imports': 'error',
