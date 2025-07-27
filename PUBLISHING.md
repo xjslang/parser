@@ -54,4 +54,3 @@ import { parseMut } from '@xjslang/parser/mut'
 - `@xjslang/parser` - Exports all functions (parse, parseDefer, parseMut)
 - `@xjslang/parser/defer` - Only exports functions related to defer
 - `@xjslang/parser/mut` - Only exports functions related to mut
-
