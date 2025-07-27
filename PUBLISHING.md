@@ -3,6 +3,7 @@
 ## Preparación
 
 1. Asegúrate de estar logueado en npm con la organización `xjslang`:
+
    ```bash
    npm whoami
    npm login
@@ -16,11 +17,13 @@
 ## Build y Publicación
 
 1. Construye el proyecto:
+
    ```bash
    npm run build
    ```
 
 2. Verifica que el paquete está listo:
+
    ```bash
    npm pack --dry-run
    ```
@@ -41,9 +44,9 @@ npm install @xjslang/parser
 Y usar las importaciones:
 
 ```js
-import { parse } from '@xjslang/parser';
-import { parseDefer } from '@xjslang/parser/defer';
-import { parseMut } from '@xjslang/parser/mut';
+import { parse } from '@xjslang/parser'
+import { parseDefer } from '@xjslang/parser/defer'
+import { parseMut } from '@xjslang/parser/mut'
 ```
 
 ## Estructura del Paquete
