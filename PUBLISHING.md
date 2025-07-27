@@ -1,47 +1,47 @@
 # Publishing Guide
 
-## Preparación
+## Preparation
 
-1. Asegúrate de estar logueado en npm con la organización `xjslang`:
+1. Make sure you are logged in to npm with the `xjslang` organization:
 
    ```bash
    npm whoami
    npm login
    ```
 
-2. Verifica que tienes acceso a la organización:
+2. Verify that you have access to the organization:
    ```bash
    npm org ls xjslang
    ```
 
-## Build y Publicación
+## Build and Publish
 
-1. Construye el proyecto:
+1. Build the project:
 
    ```bash
    npm run build
    ```
 
-2. Verifica que el paquete está listo:
+2. Check that the package is ready:
 
    ```bash
    npm pack --dry-run
    ```
 
-3. Publica el paquete:
+3. Publish the package:
    ```bash
    npm publish --access public
    ```
 
-## Verificación Post-Publicación
+## Post-Publish Verification
 
-Una vez publicado, los usuarios podrán instalar y usar el paquete:
+Once published, users can install and use the package:
 
 ```bash
 npm install @xjslang/parser
 ```
 
-Y usar las importaciones:
+And use the imports:
 
 ```js
 import { parse } from '@xjslang/parser'
@@ -49,8 +49,9 @@ import { parseDefer } from '@xjslang/parser/defer'
 import { parseMut } from '@xjslang/parser/mut'
 ```
 
-## Estructura del Paquete
+## Package Structure
 
-- `@xjslang/parser` - Exporta todas las funciones (parse, parseDefer, parseMut)
-- `@xjslang/parser/defer` - Solo exporta funciones relacionadas con defer
-- `@xjslang/parser/mut` - Solo exporta funciones relacionadas con mut
+- `@xjslang/parser` - Exports all functions (parse, parseDefer, parseMut)
+- `@xjslang/parser/defer` - Only exports functions related to defer
+- `@xjslang/parser/mut` - Only exports functions related to mut
+
