@@ -35,3 +35,6 @@ coverage/
 
 # ESLint cache
 .eslintcache
+
+# misc
+package-lock.json
