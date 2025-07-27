@@ -1,6 +1,7 @@
 const js = require('@eslint/js')
 const tseslint = require('@typescript-eslint/eslint-plugin')
 const tsparser = require('@typescript-eslint/parser')
+const stylistic = require('@stylistic/eslint-plugin')
 
 module.exports = [
   js.configs.recommended,
@@ -15,8 +16,22 @@ module.exports = [
     },
     plugins: {
       '@typescript-eslint': tseslint,
+      '@stylistic': stylistic,
     },
     rules: {
+      // Stylistic specific rules
+      '@stylistic/quotes': [
+        'error',
+        'single',
+        { allowTemplateLiterals: 'always' },
+      ],
+      '@stylistic/semi': ['error', 'never'],
+      '@stylistic/object-curly-spacing': ['error', 'always'],
+      '@stylistic/array-bracket-spacing': ['error', 'never'],
+      '@stylistic/no-trailing-spaces': 'error',
+      '@stylistic/indent': ['error', 2],
+      '@stylistic/eol-last': 'error',
+
       // TypeScript specific rules
       '@typescript-eslint/no-unused-vars': [
         'warn',
@@ -34,14 +49,6 @@ module.exports = [
       'no-unused-expressions': 'error',
       'prefer-template': 'error',
       'prefer-const': 'error',
-      quotes: ['error', 'single', { allowTemplateLiterals: true }],
-      semi: ['error', 'never'],
-      'comma-dangle': ['error', 'always-multiline'],
-      'object-curly-spacing': ['error', 'always'],
-      'array-bracket-spacing': ['error', 'never'],
-      indent: ['error', 2],
-      'no-trailing-spaces': 'error',
-      'eol-last': 'error',
     },
   },
   {
