@@ -11,14 +11,10 @@
   },
   "include": [
     "src/**/*",
-    "index.ts",
-    "defer.ts",
-    "mut.ts"
+    "index.ts"
   ],
   "exclude": [
     "node_modules",
-    "dist",
-    "test-local.js",
-    "example.ts"
+    "dist"
   ]
 }

@@ -12,14 +12,14 @@
       "types": "./dist/types/index.d.ts"
     },
     "./defer": {
-      "import": "./dist/esm/defer.js",
-      "require": "./dist/cjs/defer.js",
-      "types": "./dist/types/defer.d.ts"
+      "import": "./dist/esm/src/defer/index.js",
+      "require": "./dist/cjs/src/defer/index.js",
+      "types": "./dist/types/src/defer/index.d.ts"
     },
     "./mut": {
-      "import": "./dist/esm/mut.js",
-      "require": "./dist/cjs/mut.js",
-      "types": "./dist/types/mut.d.ts"
+      "import": "./dist/esm/src/mut/index.js",
+      "require": "./dist/cjs/src/mut/index.js",
+      "types": "./dist/types/src/mut/index.d.ts"
     }
   },
   "files": [
