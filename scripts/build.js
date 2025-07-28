@@ -4,15 +4,39 @@ import { build } from 'esbuild'
 import { promises as fs } from 'fs'
 import path from 'path'
 
-const srcFiles = [
-  'index.js',
-  'src/index.js',
-  'src/defer/index.js',
-  'src/mut/index.js',
-]
+// Recursively find all .js files in src directory
+async function findJSFiles(dir, files = []) {
+  const items = await fs.readdir(dir)
+
+  for (const item of items) {
+    const fullPath = path.join(dir, item)
+    const stats = await fs.stat(fullPath)
+
+    if (stats.isDirectory()) {
+      await findJSFiles(fullPath, files)
+    } else if (
+      item.endsWith('.js') &&
+      !item.includes('.test.') &&
+      !item.includes('.spec.')
+    ) {
+      files.push(fullPath)
+    }
+  }
+
+  return files
+}
+
+async function getEntryPoints() {
+  const srcFiles = await findJSFiles('src')
+  // Add root index.js
+  srcFiles.push('index.js')
+  return srcFiles
+}
 
 async function buildESM() {
   console.log('Building ESM...')
+  const srcFiles = await getEntryPoints()
+  console.log('Entry points:', srcFiles)
 
   await build({
     entryPoints: srcFiles,
@@ -29,6 +53,7 @@ async function buildESM() {
 
 async function buildCJS() {
   console.log('Building CommonJS...')
+  const srcFiles = await getEntryPoints()
 
   await build({
     entryPoints: srcFiles,
