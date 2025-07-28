@@ -2,24 +2,21 @@
   "name": "@xjslang/parser",
   "version": "1.0.0",
   "description": "Extended JavaScript language (XJS Language)",
+  "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js",
-      "types": "./dist/types/index.d.ts"
+      "require": "./dist/cjs/index.js"
     },
     "./defer": {
       "import": "./dist/esm/src/defer/index.js",
-      "require": "./dist/cjs/src/defer/index.js",
-      "types": "./dist/types/src/defer/index.d.ts"
+      "require": "./dist/cjs/src/defer/index.js"
     },
     "./mut": {
       "import": "./dist/esm/src/mut/index.js",
-      "require": "./dist/cjs/src/mut/index.js",
-      "types": "./dist/types/src/mut/index.d.ts"
+      "require": "./dist/cjs/src/mut/index.js"
     }
   },
   "files": [
@@ -27,12 +24,11 @@
     "README.md"
   ],
   "scripts": {
-    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:types",
-    "build:cjs": "tsc --project tsconfig.cjs.json",
-    "build:esm": "tsc --project tsconfig.esm.json",
-    "build:types": "tsc --project tsconfig.types.json",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm",
+    "build:cjs": "babel src index.js --out-dir dist/cjs --env-name cjs",
+    "build:esm": "babel src index.js --out-dir dist/esm --env-name esm",
     "clean": "rimraf dist",
-    "dev": "npm run build -- --watch",
+    "dev": "node index.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
@@ -50,16 +46,16 @@
   "author": "XJS Lang Team",
   "license": "MIT",
   "devDependencies": {
+    "@babel/cli": "^7.24.0",
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
     "@eslint/js": "^9.32.0",
     "@stylistic/eslint-plugin": "^5.2.2",
-    "@typescript-eslint/eslint-plugin": "^8.38.0",
-    "@typescript-eslint/parser": "^8.38.0",
     "eslint": "^9.32.0",
     "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
-    "simple-git-hooks": "^2.13.0",
-    "typescript": "^5.0.0"
+    "simple-git-hooks": "^2.13.0"
   },
   "engines": {
     "node": ">=16"
@@ -68,7 +64,7 @@
     "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
-    "*.{js,ts}": [
+    "*.js": [
       "eslint --fix",
       "prettier --write"
     ],

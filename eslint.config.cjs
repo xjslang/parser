@@ -1,21 +1,15 @@
 const js = require('@eslint/js')
-const tseslint = require('@typescript-eslint/eslint-plugin')
-const tsparser = require('@typescript-eslint/parser')
 const stylistic = require('@stylistic/eslint-plugin')
 
 module.exports = [
   js.configs.recommended,
   {
-    files: ['**/*.ts', '**/*.tsx'],
+    files: ['**/*.js'],
     languageOptions: {
-      parser: tsparser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-      },
+      ecmaVersion: 'latest',
+      sourceType: 'module',
     },
     plugins: {
-      '@typescript-eslint': tseslint,
       '@stylistic': stylistic,
     },
     rules: {
@@ -32,18 +26,9 @@ module.exports = [
       '@stylistic/indent': ['error', 2],
       '@stylistic/eol-last': 'error',
 
-      // TypeScript specific rules
-      '@typescript-eslint/no-unused-vars': [
-        'warn',
-        { argsIgnorePattern: '^_' },
-      ],
-      '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-inferrable-types': 'error',
-
-      // JavaScript/General rules
-      'no-unused-vars': 'off',
-      'no-undef': 'off',
+      // JavaScript rules
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      'no-undef': 'error',
       'no-debugger': 'error',
       'no-duplicate-imports': 'error',
       'no-unused-expressions': 'error',
@@ -52,6 +37,6 @@ module.exports = [
     },
   },
   {
-    ignores: ['**', '!src/**'],
+    ignores: ['**', '!src/**', '!index.js'],
   },
 ]

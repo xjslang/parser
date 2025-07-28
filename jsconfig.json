@@ -2,13 +2,13 @@
   "compilerOptions": {
     "target": "ES2020",
     "moduleResolution": "node",
-    "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": false,
+    "allowJs": true,
+    "checkJs": true,
     "outDir": "./dist"
   },
-  "include": ["src/**/*", "index.ts"],
+  "include": ["src/**/*", "index.js"],
   "exclude": ["node_modules", "dist"]
 }
