@@ -15,3 +15,8 @@ export function parse(_input) {
 
 export * from './defer/index.js'
 export * from './mut/index.js'
+
+// Default export for module-style import
+export default {
+  parse,
+}

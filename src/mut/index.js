@@ -13,6 +13,9 @@ export function parseMut(_input) {
   throw new Error('parseMut function not implemented yet')
 }
 
+// Alias for consistency with defer module
+export const parse = parseMut
+
 /**
  * Check if input is a mut expression
  * @param {string} _input - The input string to check
@@ -21,4 +24,11 @@ export function parseMut(_input) {
 export function isMutExpression(_input) {
   // TODO: Implement mut detection logic
   return false
+}
+
+// Default export for module-style import
+export default {
+  parse: parseMut,
+  parseMut,
+  isMutExpression,
 }
