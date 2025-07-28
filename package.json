@@ -29,8 +29,8 @@
   ],
   "scripts": {
     "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:types",
-    "build:cjs": "babel src index.js --out-dir dist/cjs --env-name cjs",
-    "build:esm": "babel src index.js --out-dir dist/esm --env-name esm",
+    "build:cjs": "babel src --out-dir dist/cjs/src --env-name cjs && babel index.js --out-dir dist/cjs --env-name cjs",
+    "build:esm": "babel src --out-dir dist/esm/src --env-name esm && babel index.js --out-dir dist/esm --env-name esm",
     "build:types": "tsc",
     "clean": "rimraf dist",
     "dev": "node index.js",
