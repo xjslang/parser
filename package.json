@@ -8,19 +8,19 @@
   "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js",
-      "types": "./dist/types/index.d.ts"
+      "require": "./dist/cjs/index.js"
     },
     "./defer": {
+      "types": "./dist/types/src/defer/index.d.ts",
       "import": "./dist/esm/src/defer/index.js",
-      "require": "./dist/cjs/src/defer/index.js",
-      "types": "./dist/types/src/defer/index.d.ts"
+      "require": "./dist/cjs/src/defer/index.js"
     },
     "./mut": {
+      "types": "./dist/types/src/mut/index.d.ts",
       "import": "./dist/esm/src/mut/index.js",
-      "require": "./dist/cjs/src/mut/index.js",
-      "types": "./dist/types/src/mut/index.d.ts"
+      "require": "./dist/cjs/src/mut/index.js"
     }
   },
   "files": [
@@ -28,9 +28,8 @@
     "README.md"
   ],
   "scripts": {
-    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:types",
-    "build:cjs": "babel src --out-dir dist/cjs/src --env-name cjs && babel index.js --out-dir dist/cjs --env-name cjs",
-    "build:esm": "babel src --out-dir dist/esm/src --env-name esm && babel index.js --out-dir dist/esm --env-name esm",
+    "build": "npm run clean && npm run build:js && npm run build:types",
+    "build:js": "node scripts/build.js",
     "build:types": "tsc",
     "clean": "rimraf dist",
     "dev": "node index.js",
@@ -51,11 +50,9 @@
   "author": "XJS Lang Team",
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.24.0",
-    "@babel/core": "^7.24.0",
-    "@babel/preset-env": "^7.24.0",
     "@eslint/js": "^9.32.0",
     "@stylistic/eslint-plugin": "^5.2.2",
+    "esbuild": "^0.25.8",
     "eslint": "^9.32.0",
     "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
