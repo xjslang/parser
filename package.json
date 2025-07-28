@@ -5,18 +5,22 @@
   "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
     },
     "./defer": {
       "import": "./dist/esm/src/defer/index.js",
-      "require": "./dist/cjs/src/defer/index.js"
+      "require": "./dist/cjs/src/defer/index.js",
+      "types": "./dist/types/src/defer/index.d.ts"
     },
     "./mut": {
       "import": "./dist/esm/src/mut/index.js",
-      "require": "./dist/cjs/src/mut/index.js"
+      "require": "./dist/cjs/src/mut/index.js",
+      "types": "./dist/types/src/mut/index.d.ts"
     }
   },
   "files": [
@@ -24,9 +28,10 @@
     "README.md"
   ],
   "scripts": {
-    "build": "npm run clean && npm run build:cjs && npm run build:esm",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:types",
     "build:cjs": "babel src index.js --out-dir dist/cjs --env-name cjs",
     "build:esm": "babel src index.js --out-dir dist/esm --env-name esm",
+    "build:types": "tsc",
     "clean": "rimraf dist",
     "dev": "node index.js",
     "format": "prettier --write .",
@@ -55,7 +60,8 @@
     "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
-    "simple-git-hooks": "^2.13.0"
+    "simple-git-hooks": "^2.13.0",
+    "typescript": "^5.8.3"
   },
   "engines": {
     "node": ">=16"
