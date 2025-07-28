@@ -74,5 +74,9 @@
     "*.{json,md,yml,yaml}": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "acorn": "^8.15.0",
+    "recast": "^0.23.11"
   }
 }
