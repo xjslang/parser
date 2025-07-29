@@ -120,10 +120,6 @@ function runTests() {
       } catch {
         // Ignore parsing errors when trying to show generated code
       }
-
-      if (process.argv.includes('--verbose')) {
-        console.log(`   Stack: ${error.stack}`)
-      }
     }
   }
 
@@ -146,12 +142,10 @@ if (process.argv.includes('--help') || process.argv.includes('-h')) {
 Usage: node test-runner.js [options]
 
 Options:
-  --verbose    Show detailed output including generated code
   --help, -h   Show this help message
 
 Examples:
   npm test                    # Run all tests
-  npm run test:verbose        # Run tests with verbose output
 `)
   process.exit(0)
 }
