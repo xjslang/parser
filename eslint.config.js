@@ -3,9 +3,12 @@ import stylistic from '@stylistic/eslint-plugin'
 
 export default [
   js.configs.recommended,
+  // Global ignores - applies to all configurations
+  {
+    ignores: ['node_modules/**', 'dist/**'],
+  },
   {
     files: ['**/*.js'],
-    ignores: ['node_modules/**', 'dist/**'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
