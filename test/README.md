@@ -8,7 +8,6 @@ This directory contains all testing infrastructure for the XJS parser.
 test/
 ├── fixtures/          # Test data files (.xjs input + .out expected output)
 ├── benchmarks/        # Performance benchmarks (planned)
-├── helpers/          # Test utilities and runners
 └── README.md         # This file
 ```
 
@@ -18,12 +17,6 @@ The `fixtures/` directory contains behavior test data:
 
 - `*.xjs` files: Input code with XJS syntax (defer statements, etc.)
 - `*.out` files: Expected console output when the transformed code is executed
-
-## Helpers
-
-The `helpers/` directory contains:
-
-- `test-runner.js`: Main test runner that executes behavior tests
 
 ## Running Tests
 
