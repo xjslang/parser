@@ -1,13 +1,25 @@
-const js = require('@eslint/js')
-const stylistic = require('@stylistic/eslint-plugin')
+import js from '@eslint/js'
+import stylistic from '@stylistic/eslint-plugin'
 
-module.exports = [
+export default [
   js.configs.recommended,
   {
-    files: ['src/**/*.js'],
+    files: ['**/*.js'],
+    ignores: ['node_modules/**', 'dist/**'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+        Buffer: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        global: 'readonly',
+        module: 'readonly',
+        require: 'readonly',
+        exports: 'readonly',
+      },
     },
     plugins: {
       '@stylistic': stylistic,
