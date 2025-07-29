@@ -4,7 +4,7 @@ const stylistic = require('@stylistic/eslint-plugin')
 module.exports = [
   js.configs.recommended,
   {
-    files: ['**/*.js'],
+    files: ['src/**/*.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -35,8 +35,5 @@ module.exports = [
       'prefer-template': 'error',
       'prefer-const': 'error',
     },
-  },
-  {
-    ignores: ['**', '!src/**', '!index.js'],
   },
 ]
