@@ -38,8 +38,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:check": "eslint . --max-warnings 0",
-    "test": "node test/helpers/test-runner.js",
-    "test:verbose": "node test/helpers/test-runner.js --verbose",
+    "test": "node scripts/run-tests.js",
+    "test:verbose": "node scripts/run-tests.js --verbose",
     "benchmark": "node test/benchmarks/parser-benchmark.js",
     "prepublishOnly": "npm run format:check && npm run lint:check && npm run build"
   },

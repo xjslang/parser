@@ -11,7 +11,7 @@ import { parse as parseMut } from '@xjslang/parser/mut'
 // Get the directory path of this file
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-const FIXTURES_DIR = join(__dirname, '..', 'fixtures')
+const FIXTURES_DIR = join(__dirname, '../test', 'fixtures')
 
 /**
  * Execute code and capture console output
