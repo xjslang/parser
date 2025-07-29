@@ -3,43 +3,23 @@
 import { build } from 'esbuild'
 import { promises as fs } from 'fs'
 import path from 'path'
+import { glob } from 'glob'
 
-// Recursively find all .js files in src directory
-async function findJSFiles(dir, files = []) {
-  const items = await fs.readdir(dir)
+async function getFilteredEntryPoints() {
+  const srcFiles = await glob('src/**/*.js', {
+    ignore: ['**/*.test.js', '**/*.spec.js'],
+  })
 
-  for (const item of items) {
-    const fullPath = path.join(dir, item)
-    const stats = await fs.stat(fullPath)
-
-    if (stats.isDirectory()) {
-      await findJSFiles(fullPath, files)
-    } else if (
-      item.endsWith('.js') &&
-      !item.includes('.test.') &&
-      !item.includes('.spec.')
-    ) {
-      files.push(fullPath)
-    }
-  }
-
-  return files
-}
-
-async function getEntryPoints() {
-  const srcFiles = await findJSFiles('src')
-  // Add root index.js
-  srcFiles.push('index.js')
-  return srcFiles
+  return [...srcFiles, 'index.js']
 }
 
 async function buildESM() {
   console.log('Building ESM...')
-  const srcFiles = await getEntryPoints()
-  console.log('Entry points:', srcFiles)
+  const entryPoints = await getFilteredEntryPoints()
+  console.log('Entry points:', entryPoints)
 
   await build({
-    entryPoints: srcFiles,
+    entryPoints,
     outdir: 'dist/esm',
     format: 'esm',
     platform: 'node',
@@ -53,10 +33,10 @@ async function buildESM() {
 
 async function buildCJS() {
   console.log('Building CommonJS...')
-  const srcFiles = await getEntryPoints()
+  const entryPoints = await getFilteredEntryPoints()
 
   await build({
-    entryPoints: srcFiles,
+    entryPoints,
     outdir: 'dist/cjs',
     format: 'cjs',
     platform: 'node',
