@@ -44,7 +44,7 @@ const deferVisitor = (ast) => {
       })
 
       if (hasDefers) {
-        path.replace(buildTryFinallyWrapper(node.body))
+        node.body = buildTryFinallyWrapper(node.body)
       }
 
       return this.traverse(path)

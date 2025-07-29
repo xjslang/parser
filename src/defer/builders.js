@@ -18,74 +18,74 @@ export function buildDefersPushStatement(body) {
 //         try {
 //             defers[i]();
 //         } catch(err) {
-//             console.log(err);
+//             console.error(err);
 //         }
 //     }
 // }
 export function buildTryFinallyWrapper(body) {
-  return b.tryStatement(
-    b.blockStatement([
-      // const defers = [];
-      b.variableDeclaration('const', [
-        b.variableDeclarator(b.identifier('defers'), b.arrayExpression([])),
-      ]),
-      ...body.body,
+  return b.blockStatement([
+    // const defers = [];
+    b.variableDeclaration('const', [
+      b.variableDeclarator(b.identifier('defers'), b.arrayExpression([])),
     ]),
-    null,
-    b.blockStatement([
-      // for (let i = defers.length - 1; i >= 0; i --) {
-      b.forStatement(
-        b.variableDeclaration('let', [
-          b.variableDeclarator(
-            b.identifier('i'),
-            b.binaryExpression(
-              '-',
-              b.memberExpression(
-                b.identifier('defers'),
-                b.identifier('length'),
-                false
-              ),
-              b.literal(1)
-            )
-          ),
-        ]),
-        b.binaryExpression('>=', b.identifier('i'), b.literal(0)),
-        b.updateExpression('--', b.identifier('i'), false),
-        b.blockStatement([
-          b.tryStatement(
-            // try { defers[i](); }
-            b.blockStatement([
-              b.expressionStatement(
-                b.callExpression(
-                  b.memberExpression(
-                    b.identifier('defers'),
-                    b.identifier('i'),
-                    true
-                  ),
-                  []
-                )
-              ),
-            ]),
-            // catch(err) { console.error(err); }
-            b.catchClause(
-              b.identifier('err'),
-              null,
+    b.tryStatement(
+      b.blockStatement([...body.body]),
+      null,
+      b.blockStatement([
+        // for (let i = defers.length - 1; i >= 0; i --) {
+        b.forStatement(
+          b.variableDeclaration('let', [
+            b.variableDeclarator(
+              b.identifier('i'),
+              b.binaryExpression(
+                '-',
+                b.memberExpression(
+                  b.identifier('defers'),
+                  b.identifier('length'),
+                  false
+                ),
+                b.literal(1)
+              )
+            ),
+          ]),
+          b.binaryExpression('>=', b.identifier('i'), b.literal(0)),
+          b.updateExpression('--', b.identifier('i'), false),
+          b.blockStatement([
+            b.tryStatement(
+              // try { defers[i](); }
               b.blockStatement([
                 b.expressionStatement(
                   b.callExpression(
                     b.memberExpression(
-                      b.identifier('console'),
-                      b.identifier('error'),
-                      false
+                      b.identifier('defers'),
+                      b.identifier('i'),
+                      true
                     ),
-                    [b.identifier('err')]
+                    []
                   )
                 ),
-              ])
-            )
-          ),
-        ])
-      ),
-    ])
-  )
+              ]),
+              // catch(err) { console.error(err); }
+              b.catchClause(
+                b.identifier('err'),
+                null,
+                b.blockStatement([
+                  b.expressionStatement(
+                    b.callExpression(
+                      b.memberExpression(
+                        b.identifier('console'),
+                        b.identifier('error'),
+                        false
+                      ),
+                      [b.identifier('err')]
+                    )
+                  ),
+                ])
+              )
+            ),
+          ])
+        ),
+      ])
+    ),
+  ])
 }
