@@ -134,20 +134,4 @@ function runTests() {
   }
 }
 
-// Show help if requested
-if (process.argv.includes('--help') || process.argv.includes('-h')) {
-  console.log(`
-🧪 XJS Test Runner
-
-Usage: node test-runner.js [options]
-
-Options:
-  --help, -h   Show this help message
-
-Examples:
-  npm test                    # Run all tests
-`)
-  process.exit(0)
-}
-
 runTests()
