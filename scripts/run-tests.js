@@ -87,9 +87,11 @@ function runTests() {
       const ast = parser(inputCode)
       const result = recast.print(ast)
 
-      console.log(`🔍 Processing ${testName}`)
-      console.log(`Generated code:\n${result.code}`)
-      console.log('='.repeat(50))
+      if (process.argv.includes('--verbose')) {
+        console.log(`🔍 Processing ${testName}`)
+        console.log(`Generated code:\n${result.code}`)
+        console.log('='.repeat(50))
+      }
 
       // Execute and capture output
       const actualOutput = executeCode(result.code) // Compare results
@@ -103,9 +105,9 @@ function runTests() {
         console.log(`❌ ${testName}`)
         console.log(`   Expected: ${JSON.stringify(expectedOutput)}`)
         console.log(`   Actual:   ${JSON.stringify(actualOutput)}`)
-
-        // Always show generated code for failed tests
-        console.log(`   Generated code:\n${result.code}`)
+        if (process.argv.includes('--verbose')) {
+          console.log(`   Generated code:\n${result.code}`)
+        }
       }
     } catch (error) {
       console.log(`💥 ${testName} - ERROR: ${error.message}`)
