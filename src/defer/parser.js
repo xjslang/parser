@@ -6,7 +6,7 @@ import { buildDefersPushStatement, buildTryFinallyWrapper } from './builders.js'
 /**
  * @param {typeof acorn.Parser} BaseParser
  */
-const DeferParser = acorn.Parser.extend(BaseParser => {
+const DeferParser = acorn.Parser.extend((BaseParser) => {
   return class extends BaseParser {
     parseStatement(context, topLevel, exports) {
       const isDefer = this.isContextual('defer')
@@ -24,13 +24,10 @@ const DeferParser = acorn.Parser.extend(BaseParser => {
 })
 
 /**
- * @param {string} input
- * @param {acorn.Options} options
- * @returns
+ * @param {acorn.Program} ast
+ * @returns {acorn.Program}
  */
-export const parse = (input, options = { ecmaVersion: 'latest' }) => {
-  const ast = DeferParser.parse(input, options)
-
+const deferVisitor = (ast) => {
   return recast.visit(ast, {
     visitLabeledStatement(path) {
       const node = path.node
@@ -42,7 +39,7 @@ export const parse = (input, options = { ecmaVersion: 'latest' }) => {
     visitFunctionDeclaration(path) {
       const node = path.node
       const stmts = node.body.body
-      const hasDefers = stmts.some(stmt => {
+      const hasDefers = stmts.some((stmt) => {
         return stmt.type == 'LabeledStatement' && stmt.label.name == 'defer'
       })
 
@@ -53,4 +50,13 @@ export const parse = (input, options = { ecmaVersion: 'latest' }) => {
       return this.traverse(path)
     },
   })
+}
+
+/**
+ * @param {string} input
+ * @param {acorn.Options} options
+ * @returns {acorn.Program}
+ */
+export const parse = (input, options = { ecmaVersion: 'latest' }) => {
+  return deferVisitor(DeferParser.parse(input, options))
 }
