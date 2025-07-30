@@ -31,6 +31,7 @@ const deferVisitor = (ast) => {
   const suffix = Math.random().toString(36).slice(2)
 
   return recast.visit(ast, {
+    // overridden methods
     visitLabeledStatement(path) {
       const node = path.node
       if (node.label.name == 'defer' && node.body.type == 'BlockStatement') {
@@ -39,6 +40,17 @@ const deferVisitor = (ast) => {
       return this.traverse(path)
     },
     visitFunctionDeclaration(path) {
+      this.visitFunction(path)
+    },
+    visitFunctionExpression(path) {
+      this.visitFunction(path)
+    },
+    visitArrowFunctionExpression(path) {
+      this.visitFunction(path)
+    },
+
+    // custom methods
+    visitFunction(path) {
       const node = path.node
       const stmts = node.body.body
       const hasDefers = stmts.some((stmt) => {
