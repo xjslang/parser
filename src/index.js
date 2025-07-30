@@ -1,16 +1,12 @@
-/**
- * Main parser entry point
- * Exports the core parsing functionality
- */
+import defer from './defer/index.js'
 
 /**
- * Parse the input string
- * @param {string} _input - The input string to parse
- * @returns {any} The parsed result
+ * @param {string} input
+ * @param {acorn.Options} options
+ * @returns {acorn.Program}
  */
-export function parse(_input) {
-  // TODO: Implement main parser logic
-  throw new Error('parse function not implemented yet')
+export function parse(input, options = { ecmaVersion: 'latest' }) {
+  return defer.parse(input, options)
 }
 
 export * from './defer/index.js'

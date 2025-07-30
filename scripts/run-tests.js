@@ -5,8 +5,7 @@ import { join, basename, dirname } from 'path'
 import { execSync } from 'child_process'
 import { fileURLToPath } from 'url'
 import recast from 'recast'
-import { parse as parseDefer } from '../src/defer/index.js'
-import { parse as parseMut } from '../src/mut/index.js'
+import { parse } from '../src/index.js'
 
 // Get the directory path of this file
 const __filename = fileURLToPath(import.meta.url)
@@ -40,22 +39,6 @@ function executeCode(code) {
 }
 
 /**
- * Get appropriate parser based on filename
- * @param {string} filename - Test file name
- * @returns {Function} Parser function
- */
-function getParser(filename) {
-  if (filename.includes('defer')) {
-    return parseDefer
-  } else if (filename.includes('mut')) {
-    return parseMut
-  } else {
-    // Default to defer parser for now
-    return parseDefer
-  }
-}
-
-/**
  * Run all tests in fixtures directory
  */
 function runTests() {
@@ -83,8 +66,7 @@ function runTests() {
         .filter((line) => line.length > 0)
 
       // Parse and generate code
-      const parser = getParser(testName)
-      const ast = parser(inputCode)
+      const ast = parse(inputCode)
       const result = recast.print(ast)
 
       if (process.argv.includes('--verbose')) {
@@ -114,9 +96,8 @@ function runTests() {
 
       // Show generated code for execution errors to help debugging
       try {
-        const parser = getParser(testName)
         const inputCode = readFileSync(xjsPath, 'utf8')
-        const ast = parser(inputCode)
+        const ast = parse(inputCode)
         const result = recast.print(ast)
         console.log(`   Generated code:\n${result.code}`)
       } catch {
