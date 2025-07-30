@@ -1,6 +1,7 @@
 import * as acorn from 'acorn'
 import * as recast from 'recast'
 import { builders as b } from 'ast-types'
+import { getClosestPath, error } from '../libs/utils.js'
 import { buildDefersPushStatement, buildTryFinallyWrapper } from './builders.js'
 
 /**
@@ -12,6 +13,7 @@ const DeferParser = acorn.Parser.extend((BaseParser) => {
       const isDefer = this.isContextual('defer')
       if (isDefer) {
         this.next()
+        // TODO: save position (currently node.location is `null`)
         const node = this.startNode()
         node.label = b.identifier('defer')
         node.body = this.parseBlock()
@@ -35,6 +37,16 @@ const deferVisitor = (ast) => {
     visitLabeledStatement(path) {
       const node = path.node
       if (node.label.name == 'defer' && node.body.type == 'BlockStatement') {
+        const parentPath = getClosestPath(path, [
+          'FunctionDeclaration',
+          'FunctionExpression',
+          'ArrowFunctionExpression',
+        ])
+
+        if (!parentPath) {
+          error('defer statements are not allowed at top-level', node)
+        }
+
         path.replace(buildDefersPushStatement(node.body, suffix))
       }
       return this.traverse(path)
