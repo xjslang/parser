@@ -39,16 +39,44 @@ function executeCode(code) {
 }
 
 /**
- * Run all tests in fixtures directory
+ * Run tests in fixtures directory
+ * @param {string[]} specificTests - Optional array of specific test names to run
  */
-function runTests() {
+function runTests(specificTests = []) {
   const files = readdirSync(FIXTURES_DIR)
-  const testFiles = files.filter((file) => file.endsWith('.xjs'))
+  let testFiles = files.filter((file) => file.endsWith('.xjs'))
+
+  // Filter to specific tests if provided
+  if (specificTests.length > 0) {
+    testFiles = testFiles.filter((file) => {
+      const testName = basename(file, '.xjs')
+      return specificTests.some(
+        (specificTest) =>
+          testName.includes(specificTest) || specificTest.includes(testName)
+      )
+    })
+
+    if (testFiles.length === 0) {
+      console.log(`❌ No tests found matching: ${specificTests.join(', ')}`)
+      console.log(
+        `Available tests: ${files
+          .filter((f) => f.endsWith('.xjs'))
+          .map((f) => basename(f, '.xjs'))
+          .join(', ')}`
+      )
+      process.exit(1)
+    }
+  }
 
   let passed = 0
   let total = 0
 
-  console.log('🚀 Running XJS behavior tests...\n')
+  const testHeader =
+    specificTests.length > 0
+      ? `🚀 Running specific XJS tests: ${specificTests.join(', ')}\n`
+      : '🚀 Running XJS behavior tests...\n'
+
+  console.log(testHeader)
 
   for (const testFile of testFiles) {
     const testName = basename(testFile, '.xjs')
@@ -117,4 +145,85 @@ function runTests() {
   }
 }
 
-runTests()
+// Parse command line arguments
+function parseArgs() {
+  const args = process.argv.slice(2)
+  const options = {
+    verbose: false,
+    help: false,
+    tests: [],
+  }
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i]
+
+    if (arg === '--verbose' || arg === '-v') {
+      options.verbose = true
+    } else if (arg === '--help' || arg === '-h') {
+      options.help = true
+    } else if (arg === '--test' || arg === '-t') {
+      // Next argument should be the test name
+      if (i + 1 < args.length) {
+        options.tests.push(args[i + 1])
+        i++ // Skip next argument
+      }
+    } else if (!arg.startsWith('-')) {
+      // Treat non-flag arguments as test names
+      options.tests.push(arg)
+    }
+  }
+
+  return options
+}
+
+// Show help message
+function showHelp() {
+  console.log(`
+🧪 XJS Test Runner
+
+Usage: node scripts/run-tests.js [options] [test-names...]
+
+Options:
+  --verbose, -v        Show detailed output including generated code
+  --test, -t <name>    Run specific test by name
+  --help, -h           Show this help message
+
+Examples:
+  node scripts/run-tests.js                    # Run all tests
+  node scripts/run-tests.js --verbose          # Run all tests with verbose output
+  node scripts/run-tests.js defer-top-level    # Run specific test
+  node scripts/run-tests.js -t defer-closures  # Run specific test (alternative syntax)
+  node scripts/run-tests.js defer-top defer-closures  # Run multiple specific tests
+  
+Available tests:
+`)
+
+  try {
+    const files = readdirSync(FIXTURES_DIR)
+    const testNames = files
+      .filter((file) => file.endsWith('.xjs'))
+      .map((file) => basename(file, '.xjs'))
+      .sort()
+
+    testNames.forEach((name) => console.log(`  - ${name}`))
+  } catch {
+    console.log('  (Could not list available tests)')
+  }
+
+  console.log()
+}
+
+// Main execution
+const options = parseArgs()
+
+if (options.help) {
+  showHelp()
+  process.exit(0)
+}
+
+// Set verbose mode if requested
+if (options.verbose) {
+  process.argv.push('--verbose')
+}
+
+runTests(options.tests)
