@@ -5,8 +5,8 @@ import { join, basename, dirname } from 'path'
 import { execSync } from 'child_process'
 import { fileURLToPath } from 'url'
 import recast from 'recast'
-import { parse as parseDefer } from '@xjslang/parser/defer'
-import { parse as parseMut } from '@xjslang/parser/mut'
+import { parse as parseDefer } from '../src/defer/index.js'
+import { parse as parseMut } from '../src/mut/index.js'
 
 // Get the directory path of this file
 const __filename = fileURLToPath(import.meta.url)

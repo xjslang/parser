@@ -28,11 +28,13 @@ const DeferParser = acorn.Parser.extend((BaseParser) => {
  * @returns {acorn.Program}
  */
 const deferVisitor = (ast) => {
+  const suffix = Math.random().toString(36).slice(2)
+
   return recast.visit(ast, {
     visitLabeledStatement(path) {
       const node = path.node
       if (node.label.name == 'defer' && node.body.type == 'BlockStatement') {
-        path.replace(buildDefersPushStatement(node.body))
+        path.replace(buildDefersPushStatement(node.body, suffix))
       }
       return this.traverse(path)
     },
@@ -44,7 +46,7 @@ const deferVisitor = (ast) => {
       })
 
       if (hasDefers) {
-        node.body = buildTryFinallyWrapper(node.body)
+        node.body = buildTryFinallyWrapper(node.body, suffix)
       }
 
       return this.traverse(path)

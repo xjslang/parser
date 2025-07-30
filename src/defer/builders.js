@@ -1,10 +1,14 @@
 import { builders as b } from 'ast-types'
 
 // defers.push(() => [body])
-export function buildDefersPushStatement(body) {
+export function buildDefersPushStatement(body, suffix) {
   return b.expressionStatement(
     b.callExpression(
-      b.memberExpression(b.identifier('defers'), b.identifier('push'), false),
+      b.memberExpression(
+        b.identifier(`defers_${suffix}`),
+        b.identifier('push'),
+        false
+      ),
       [b.arrowFunctionExpression([], body, false)]
     )
   )
@@ -22,11 +26,14 @@ export function buildDefersPushStatement(body) {
 //         }
 //     }
 // }
-export function buildTryFinallyWrapper(body) {
+export function buildTryFinallyWrapper(body, suffix) {
   return b.blockStatement([
     // const defers = [];
     b.variableDeclaration('const', [
-      b.variableDeclarator(b.identifier('defers'), b.arrayExpression([])),
+      b.variableDeclarator(
+        b.identifier(`defers_${suffix}`),
+        b.arrayExpression([])
+      ),
     ]),
     b.tryStatement(
       b.blockStatement([...body.body]),
@@ -40,7 +47,7 @@ export function buildTryFinallyWrapper(body) {
               b.binaryExpression(
                 '-',
                 b.memberExpression(
-                  b.identifier('defers'),
+                  b.identifier(`defers_${suffix}`),
                   b.identifier('length'),
                   false
                 ),
@@ -57,7 +64,7 @@ export function buildTryFinallyWrapper(body) {
                 b.expressionStatement(
                   b.callExpression(
                     b.memberExpression(
-                      b.identifier('defers'),
+                      b.identifier(`defers_${suffix}`),
                       b.identifier('i'),
                       true
                     ),
