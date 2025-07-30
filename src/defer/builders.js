@@ -2,10 +2,12 @@ import { builders as b } from 'ast-types'
 
 // defers.push(() => [body])
 export function buildDefersPushStatement(body, suffix) {
+  const defersVarName = `__defers_${suffix}__`
+
   return b.expressionStatement(
     b.callExpression(
       b.memberExpression(
-        b.identifier(`defers_${suffix}`),
+        b.identifier(defersVarName),
         b.identifier('push'),
         false
       ),
@@ -27,13 +29,14 @@ export function buildDefersPushStatement(body, suffix) {
 //     }
 // }
 export function buildTryFinallyWrapper(body, suffix) {
+  const defersVarName = `__defers_${suffix}__`
+  const idVarName = `__id_${suffix}__`
+  const errVarName = `__err_${suffix}__`
+
   return b.blockStatement([
     // const defers = [];
     b.variableDeclaration('const', [
-      b.variableDeclarator(
-        b.identifier(`defers_${suffix}`),
-        b.arrayExpression([])
-      ),
+      b.variableDeclarator(b.identifier(defersVarName), b.arrayExpression([])),
     ]),
     b.tryStatement(
       b.blockStatement([...body.body]),
@@ -43,11 +46,11 @@ export function buildTryFinallyWrapper(body, suffix) {
         b.forStatement(
           b.variableDeclaration('let', [
             b.variableDeclarator(
-              b.identifier('i'),
+              b.identifier(idVarName),
               b.binaryExpression(
                 '-',
                 b.memberExpression(
-                  b.identifier(`defers_${suffix}`),
+                  b.identifier(defersVarName),
                   b.identifier('length'),
                   false
                 ),
@@ -55,8 +58,8 @@ export function buildTryFinallyWrapper(body, suffix) {
               )
             ),
           ]),
-          b.binaryExpression('>=', b.identifier('i'), b.literal(0)),
-          b.updateExpression('--', b.identifier('i'), false),
+          b.binaryExpression('>=', b.identifier(idVarName), b.literal(0)),
+          b.updateExpression('--', b.identifier(idVarName), false),
           b.blockStatement([
             b.tryStatement(
               // try { defers[i](); }
@@ -64,8 +67,8 @@ export function buildTryFinallyWrapper(body, suffix) {
                 b.expressionStatement(
                   b.callExpression(
                     b.memberExpression(
-                      b.identifier(`defers_${suffix}`),
-                      b.identifier('i'),
+                      b.identifier(defersVarName),
+                      b.identifier(idVarName),
                       true
                     ),
                     []
@@ -74,7 +77,7 @@ export function buildTryFinallyWrapper(body, suffix) {
               ]),
               // catch(err) { console.error(err); }
               b.catchClause(
-                b.identifier('err'),
+                b.identifier(errVarName),
                 null,
                 b.blockStatement([
                   b.expressionStatement(
@@ -84,7 +87,7 @@ export function buildTryFinallyWrapper(body, suffix) {
                         b.identifier('error'),
                         false
                       ),
-                      [b.identifier('err')]
+                      [b.identifier(errVarName)]
                     )
                   ),
                 ])
