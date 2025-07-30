@@ -39,7 +39,7 @@ export function buildTryFinallyWrapper(body, suffix) {
       b.variableDeclarator(b.identifier(defersVarName), b.arrayExpression([])),
     ]),
     b.tryStatement(
-      b.blockStatement([...body.body]),
+      b.blockStatement([...body]),
       null,
       b.blockStatement([
         // for (let i = defers.length - 1; i >= 0; i --) {
