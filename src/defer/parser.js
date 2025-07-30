@@ -31,6 +31,36 @@ const DeferParser = acorn.Parser.extend((BaseParser) => {
  */
 const deferVisitor = (ast) => {
   const suffix = Math.random().toString(36).slice(2)
+  const hasDefers = (body) => {
+    let found = false
+
+    recast.visit(body, {
+      visitLabeledStatement(path) {
+        const node = path.node
+        if (
+          node.label.name === 'defer' &&
+          node.body.type === 'BlockStatement'
+        ) {
+          found = true
+          return false
+        }
+        this.traverse(path)
+      },
+
+      // Don't traverse into nested functions
+      visitFunctionDeclaration() {
+        return false
+      },
+      visitFunctionExpression() {
+        return false
+      },
+      visitArrowFunctionExpression() {
+        return false
+      },
+    })
+
+    return found
+  }
 
   return recast.visit(ast, {
     // overridden methods
@@ -64,12 +94,9 @@ const deferVisitor = (ast) => {
     // custom methods
     visitFunction(path) {
       const node = path.node
-      const stmts = node.body.body
-      const hasDefers = stmts.some((stmt) => {
-        return stmt.type == 'LabeledStatement' && stmt.label.name == 'defer'
-      })
+      const bodyHasDefers = hasDefers(node.body)
 
-      if (hasDefers) {
+      if (bodyHasDefers) {
         node.body = buildTryFinallyWrapper(node.body.body, suffix)
       }
 
