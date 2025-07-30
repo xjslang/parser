@@ -75,7 +75,7 @@ export function buildTryFinallyWrapper(body, suffix) {
                   )
                 ),
               ]),
-              // catch(err) { console.error(err); }
+              // catch(err) { console.log('Error: ' + err.message); }
               b.catchClause(
                 b.identifier(errVarName),
                 null,
@@ -84,10 +84,20 @@ export function buildTryFinallyWrapper(body, suffix) {
                     b.callExpression(
                       b.memberExpression(
                         b.identifier('console'),
-                        b.identifier('error'),
+                        b.identifier('log'),
                         false
                       ),
-                      [b.identifier(errVarName)]
+                      [
+                        b.binaryExpression(
+                          '+',
+                          b.literal('Error: '),
+                          b.memberExpression(
+                            b.identifier(errVarName),
+                            b.identifier('message'),
+                            false
+                          )
+                        ),
+                      ]
                     )
                   ),
                 ])
