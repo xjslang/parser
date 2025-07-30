@@ -93,18 +93,35 @@ function runTests(specificTests = []) {
         .split('\n')
         .filter((line) => line.length > 0)
 
-      // Parse and generate code
-      const ast = parse(inputCode)
-      const result = recast.print(ast)
+      let actualOutput
+      let generatedCode = null
 
-      if (process.argv.includes('--verbose')) {
-        console.log(`🔍 Processing ${testName}`)
-        console.log(`Generated code:\n${result.code}`)
-        console.log('='.repeat(50))
+      try {
+        // Parse and generate code
+        const ast = parse(inputCode)
+        const result = recast.print(ast)
+        generatedCode = result.code
+
+        if (process.argv.includes('--verbose')) {
+          console.log(`🔍 Processing ${testName}`)
+          console.log(`Generated code:\n${generatedCode}`)
+          console.log('='.repeat(50))
+        }
+
+        // Execute and capture output
+        actualOutput = executeCode(generatedCode)
+      } catch (parseError) {
+        // Handle parsing errors (like defer at top-level)
+        actualOutput = [parseError.message]
+
+        if (process.argv.includes('--verbose')) {
+          console.log(`🔍 Processing ${testName}`)
+          console.log(`Parse error: ${parseError.message}`)
+          console.log('='.repeat(50))
+        }
       }
 
-      // Execute and capture output
-      const actualOutput = executeCode(result.code) // Compare results
+      // Compare results
       const success =
         JSON.stringify(actualOutput) === JSON.stringify(expectedOutput)
 
@@ -115,8 +132,8 @@ function runTests(specificTests = []) {
         console.log(`❌ ${testName}`)
         console.log(`   Expected: ${JSON.stringify(expectedOutput)}`)
         console.log(`   Actual:   ${JSON.stringify(actualOutput)}`)
-        if (process.argv.includes('--verbose')) {
-          console.log(`   Generated code:\n${result.code}`)
+        if (process.argv.includes('--verbose') && generatedCode) {
+          console.log(`   Generated code:\n${generatedCode}`)
         }
       }
     } catch (error) {
