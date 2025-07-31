@@ -35,9 +35,6 @@ declare module 'acorn' {
     // Consume a specific token if it matches
     eat(type: acorn.TokenType): boolean
 
-    // Check if the current token is of a specific type
-    match(type: acorn.TokenType): boolean
-
     // Check if the current token is a specific contextual keyword
     isContextual(name: string): boolean
 
