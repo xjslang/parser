@@ -1,6 +1,6 @@
 import * as acorn from 'acorn'
+import { tokTypes as tt } from 'acorn'
 import * as recast from 'recast'
-import { builders as b } from 'ast-types'
 import { getClosestPath, error } from '../libs/utils.js'
 import { buildDefersPushStatement, buildTryFinallyWrapper } from './builders.js'
 
@@ -10,7 +10,14 @@ import { buildDefersPushStatement, buildTryFinallyWrapper } from './builders.js'
 const DeferParser = acorn.Parser.extend((BaseParser) => {
   return class extends BaseParser {
     parseStatement(context, topLevel, exports) {
-      const isDefer = this.isContextual('defer')
+      let isDefer = this.isContextual('defer')
+      if (isDefer) {
+        // Create a lookahead parser to check the next token without side effects
+        const lookahead = Object.create(this)
+        lookahead.next()
+        isDefer = lookahead.type !== tt.colon
+      }
+
       if (isDefer) {
         this.next()
         const stmt = this.parseStatement()
@@ -29,7 +36,7 @@ const DeferParser = acorn.Parser.extend((BaseParser) => {
 
         // TODO: save position (currently node.location is `null`)
         const node = this.startNode()
-        node.label = b.identifier('defer')
+        node.isDefer = true
         node.body = body
         this.finishNode(node, 'LabeledStatement')
 
@@ -53,10 +60,7 @@ const deferVisitor = (ast) => {
     recast.visit(body, {
       visitLabeledStatement(path) {
         const node = path.node
-        if (
-          node.label.name === 'defer' &&
-          node.body.type === 'BlockStatement'
-        ) {
+        if (node.body.type === 'BlockStatement' && node.isDefer) {
           found = true
           return false
         }
@@ -82,7 +86,7 @@ const deferVisitor = (ast) => {
     // overridden methods
     visitLabeledStatement(path) {
       const node = path.node
-      if (node.label.name == 'defer' && node.body.type == 'BlockStatement') {
+      if (node.body.type == 'BlockStatement' && node.isDefer) {
         const parentPath = getClosestPath(path, [
           'FunctionDeclaration',
           'FunctionExpression',

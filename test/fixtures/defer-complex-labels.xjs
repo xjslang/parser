@@ -1,0 +1,41 @@
+function testComplexDeferLabels() {
+  console.log('testing complex defer vs labels')
+  
+  // Multiple defer statements
+  defer console.log('cleanup 1')
+  defer console.log('cleanup 2')
+  
+  // Labels with different spacing
+  defer: {
+    console.log('label with no space')
+  }
+  
+  defer : {
+    console.log('label with space before colon')
+  }
+  
+  defer   :   {
+    console.log('label with multiple spaces')
+  }
+
+  defer /* comment */ :
+    /* comment */
+    // comment
+    // comment
+    {
+    console.log('label with comments')
+  }
+  
+  // Nested labels
+  outer: {
+    defer: {
+      console.log('nested defer label')
+    }
+    // This should still work as defer statement
+    defer console.log('nested defer statement')
+  }
+  
+  console.log('done')
+}
+
+testComplexDeferLabels()

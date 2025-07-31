@@ -1,0 +1,15 @@
+function testDeferVsLabel() {
+  console.log('start')
+  
+  // This should be treated as defer statement
+  defer console.log('defer cleanup')
+  
+  // This should be treated as regular label
+  defer: {
+    console.log('regular label block')
+  }
+  
+  console.log('end')
+}
+
+testDeferVsLabel()

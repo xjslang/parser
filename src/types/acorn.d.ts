@@ -157,9 +157,6 @@ declare module 'acorn' {
     // Get the current position in the code
     curPosition(): acorn.Position
 
-    // Clone the parser
-    clone(): Parser
-
     // Check if "let" is a keyword in the current context
     isLet(context?: string): boolean
   }

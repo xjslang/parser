@@ -1,0 +1,10 @@
+testing complex defer vs labels
+label with no space
+label with space before colon
+label with multiple spaces
+label with comments
+nested defer label
+done
+nested defer statement
+cleanup 2
+cleanup 1
