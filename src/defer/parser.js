@@ -13,11 +13,27 @@ const DeferParser = acorn.Parser.extend((BaseParser) => {
       const isDefer = this.isContextual('defer')
       if (isDefer) {
         this.next()
+        const stmt = this.parseStatement()
+
+        let body
+        if (stmt.type == 'BlockStatement') {
+          body = stmt
+        } else if (stmt.type == 'ExpressionStatement') {
+          body = this.startNode()
+          body.body = [stmt]
+          this.finishNode(body, 'BlockStatement')
+        } else {
+          // TODO: better use this.raise
+          this.unexpected()
+        }
+
         // TODO: save position (currently node.location is `null`)
         const node = this.startNode()
         node.label = b.identifier('defer')
-        node.body = this.parseBlock()
-        return this.finishNode(node, 'LabeledStatement')
+        node.body = body
+        this.finishNode(node, 'LabeledStatement')
+
+        return node
       }
 
       return super.parseStatement(context, topLevel, exports)
