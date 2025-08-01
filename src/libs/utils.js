@@ -32,3 +32,10 @@ export const error = (message, node) => {
 
   throw new Error(loc ? `[${loc}]: ${message}` : message)
 }
+
+/**
+ * @param {string} name
+ * @param {string} suffix
+ * @returns
+ */
+export const createId = (name, suffix) => `__${name}_${suffix}__`

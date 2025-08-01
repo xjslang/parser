@@ -1,8 +1,9 @@
 import { builders as b } from 'ast-types'
+import { createId } from '../libs/utils.js'
 
 // defers.push(() => [body])
 export function buildDefersPushStatement(body, suffix) {
-  const defersVarName = `__defers_${suffix}__`
+  const defersVarName = createId('defers', suffix)
 
   return b.expressionStatement(
     b.callExpression(
@@ -29,9 +30,9 @@ export function buildDefersPushStatement(body, suffix) {
 //     }
 // }
 export function buildTryFinallyWrapper(body, suffix) {
-  const defersVarName = `__defers_${suffix}__`
-  const idVarName = `__id_${suffix}__`
-  const errVarName = `__err_${suffix}__`
+  const defersVarName = createId('defers', suffix)
+  const idVarName = createId('i', suffix)
+  const errVarName = createId('err', suffix)
 
   return b.blockStatement([
     // const defers = [];
