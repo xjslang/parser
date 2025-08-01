@@ -19,25 +19,20 @@ const DeferParser = acorn.Parser.extend((BaseParser) => {
       }
 
       if (isDefer) {
-        this.next()
+        const node = this.startNode()
+        node.isDefer = true
+        this.next() // consumes `defer`
         const stmt = this.parseStatement()
-
-        let body
         if (stmt.type == 'BlockStatement') {
-          body = stmt
+          node.body = stmt
         } else if (stmt.type == 'ExpressionStatement') {
-          body = this.startNode()
-          body.body = [stmt]
-          this.finishNode(body, 'BlockStatement')
+          node.body = this.startNodeAt(stmt.start)
+          node.body.body = [stmt]
+          this.finishNode(node.body, 'BlockStatement')
         } else {
           // TODO: better use this.raise
           this.unexpected()
         }
-
-        // TODO: save position (currently node.location is `null`)
-        const node = this.startNode()
-        node.isDefer = true
-        node.body = body
         this.finishNode(node, 'LabeledStatement')
 
         return node
