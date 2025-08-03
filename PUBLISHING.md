@@ -46,11 +46,9 @@ And use the imports:
 ```js
 import { parse } from '@xjslang/parser'
 import { parseDefer } from '@xjslang/parser/defer'
-import { parseMut } from '@xjslang/parser/mut'
 ```
 
 ## Package Structure
 
-- `@xjslang/parser` - Exports all functions (parse, parseDefer, parseMut)
+- `@xjslang/parser` - Exports all functions (parse, parseDefer)
 - `@xjslang/parser/defer` - Only exports functions related to defer
-- `@xjslang/parser/mut` - Only exports functions related to mut

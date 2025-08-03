@@ -26,14 +26,6 @@ import { parseDefer } from '@xjslang/parser/defer'
 const result = parseDefer('defer expression')
 ```
 
-### Mut Parser
-
-```js
-import { parseMut } from '@xjslang/parser/mut'
-
-const result = parseMut('mut expression')
-```
-
 ## Development
 
 ### Build
@@ -58,9 +50,7 @@ npm run clean
 
 - `src/index.ts` - Main parser entry point
 - `src/defer/` - Defer parsing functionality
-- `src/mut/` - Mut parsing functionality
 - `defer.ts` - Defer subpath entry
-- `mut.ts` - Mut subpath entry
 
 ## License
 

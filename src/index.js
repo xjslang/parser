@@ -10,7 +10,6 @@ export function parse(input, options = { ecmaVersion: 'latest' }) {
 }
 
 export * from './defer/index.js'
-export * from './mut/index.js'
 
 // Default export for module-style import
 export default {

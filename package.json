@@ -16,11 +16,6 @@
       "types": "./dist/types/src/defer/index.d.ts",
       "import": "./dist/esm/src/defer/index.js",
       "require": "./dist/cjs/src/defer/index.js"
-    },
-    "./mut": {
-      "types": "./dist/types/src/mut/index.d.ts",
-      "import": "./dist/esm/src/mut/index.js",
-      "require": "./dist/cjs/src/mut/index.js"
     }
   },
   "files": [
@@ -48,8 +43,7 @@
     "xjs",
     "parser",
     "language",
-    "defer",
-    "mut"
+    "defer"
   ],
   "author": "XJS Lang Team",
   "license": "MIT",
