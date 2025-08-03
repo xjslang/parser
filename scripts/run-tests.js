@@ -50,10 +50,7 @@ function runTests(specificTests = []) {
   if (specificTests.length > 0) {
     testFiles = testFiles.filter((file) => {
       const testName = basename(file, '.xjs')
-      return specificTests.some(
-        (specificTest) =>
-          testName.includes(specificTest) || specificTest.includes(testName)
-      )
+      return specificTests.includes(testName)
     })
 
     if (testFiles.length === 0) {
