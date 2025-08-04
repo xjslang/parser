@@ -1,5 +1,4 @@
 import * as acorn from 'acorn'
-import { tokTypes as tt } from 'acorn'
 import * as recast from 'recast'
 import { getClosestPath, error } from '../libs/utils.js'
 import { buildDefersPushStatement, buildTryFinallyWrapper } from './builders.js'
@@ -10,15 +9,7 @@ import { buildDefersPushStatement, buildTryFinallyWrapper } from './builders.js'
 const DeferParser = acorn.Parser.extend((BaseParser) => {
   return class extends BaseParser {
     parseStatement(context, topLevel, exports) {
-      let isDefer = this.isContextual('defer')
-      if (isDefer) {
-        // Create a lookahead parser to check the next token without side effects
-        const lookahead = Object.create(this)
-        lookahead.next()
-        isDefer = lookahead.type !== tt.colon
-      }
-
-      if (isDefer) {
+      if (this.isContextual('defer')) {
         const node = this.startNode()
         node.isDefer = true
         this.next() // consumes `defer`
